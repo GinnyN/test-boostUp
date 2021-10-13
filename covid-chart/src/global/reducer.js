@@ -10,7 +10,6 @@ const reducer = (state = initialState, action) => {
         case SET_TOTAL_DATA:
             state.totalData = { ...action.country };
             state.presentedData = { ...action.country };
-            console.log(state);
             return state
         case SET_TOTAL_DATA_BY_STATES:
             state.totalDataByState = { ...action.byStates };

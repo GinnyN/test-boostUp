@@ -6,7 +6,6 @@ const Histogram = ({ data, onClick }) => {
     const refDiv = useRef();
 
     useEffect(() => {
-        console.log(data);
         if(!data.cases || data.cases.length < 0) return;
         const dataXArray = data.cases.map((item) => moment(item.date, 'YYYY/MM/DD'));
         const dataYArray = data.cases.map((item) => item.value)
@@ -49,7 +48,7 @@ const Histogram = ({ data, onClick }) => {
         .attr("y", function(d) { return y(d.value); })
         .attr("width", function(d) { return width / data.cases.length })
         .attr("height", function(d) { return height - y(d.value); })
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#69b3a2").style("cursor", "pointer")
         .on("click", function(event, datum) { onClick(datum.date) });
 
         svg.selectAll("mybar")
@@ -60,8 +59,15 @@ const Histogram = ({ data, onClick }) => {
         .attr("y", function(d) { return y(d.value); })
         .attr("width", function(d) { return width / data.deaths.length })
         .attr("height", function(d) { return height - y(d.value); })
-        .attr("fill", "#FFDFD3")
-        .on("click", function(event, datum) { onClick(datum.date) });;
+        .attr("fill", "#FFDFD3").style("cursor", "pointer")
+        .on("click", function(event, datum) { onClick(datum.date) });
+
+        // Legend
+        svg.append("circle").attr("cx",100).attr("cy",30).attr("r", 6).style("fill", "#FFDFD3").style('stroke', 'white')
+        svg.append("circle").attr("cx",100).attr("cy",60).attr("r", 6).style("fill", "#69b3a2").style('stroke', 'white')
+        svg.append("text").attr("x", 120).attr("y", 30).text("Deaths").style("font-size", "15px").attr("alignment-baseline","middle")
+        svg.append("text").attr("x", 120).attr("y", 60).text("Cases").style("font-size", "15px").attr("alignment-baseline","middle")
+
 
     }, [data]);
 
